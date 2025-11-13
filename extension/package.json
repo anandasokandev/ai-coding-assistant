@@ -1,0 +1,206 @@
+{
+  "name": "ai-coding-agent",
+  "displayName": "AI Coding Agent",
+  "description": "An AI-powered code analysis and auto-fix agent with real-time diagnostics.",
+  "version": "1.0.0",
+  "publisher": "yourname",
+  "icon": "icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourname/ai-coding-agent"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Linters",
+    "Machine Learning"
+  ],
+  "keywords": [
+    "ai",
+    "code-analysis",
+    "auto-fix",
+    "diagnostics",
+    "refactoring"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "ai.explain",
+        "title": "AI: Explain Code",
+        "category": "AI Agent",
+        "icon": "$(comment-discussion)"
+      },
+      {
+        "command": "ai.fix",
+        "title": "AI: Fix Code",
+        "category": "AI Agent",
+        "icon": "$(wrench)"
+      },
+      {
+        "command": "ai.analyze",
+        "title": "AI: Analyze Current File",
+        "category": "AI Agent",
+        "icon": "$(search)"
+      },
+      {
+        "command": "ai.toggleAnalysis",
+        "title": "AI: Toggle Auto-Analysis",
+        "category": "AI Agent",
+        "icon": "$(eye)"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "ai.explain",
+          "when": "editorHasSelection",
+          "group": "ai@1"
+        },
+        {
+          "command": "ai.fix",
+          "when": "editorHasSelection",
+          "group": "ai@2"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "ai.explain",
+          "when": "editorIsOpen"
+        },
+        {
+          "command": "ai.fix",
+          "when": "editorIsOpen"
+        },
+        {
+          "command": "ai.analyze",
+          "when": "editorIsOpen"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "ai.explain",
+        "key": "ctrl+shift+e",
+        "mac": "cmd+shift+e",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "ai.fix",
+        "key": "ctrl+shift+f",
+        "mac": "cmd+shift+f",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "ai.analyze",
+        "key": "ctrl+shift+a",
+        "mac": "cmd+shift+a",
+        "when": "editorTextFocus"
+      }
+    ],
+    "configuration": {
+      "title": "AI Coding Agent",
+      "properties": {
+        "aiAgent.serverUrl": {
+          "type": "string",
+          "default": "http://localhost:4000",
+          "description": "AI analysis server URL",
+          "order": 1
+        },
+        "aiAgent.debounceMs": {
+          "type": "number",
+          "default": 500,
+          "minimum": 100,
+          "maximum": 5000,
+          "description": "Debounce delay in milliseconds before triggering analysis",
+          "order": 2
+        },
+        "aiAgent.autoAnalyze": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically analyze code on file changes",
+          "order": 3
+        },
+        "aiAgent.timeout": {
+          "type": "number",
+          "default": 10000,
+          "minimum": 1000,
+          "maximum": 60000,
+          "description": "Request timeout in milliseconds",
+          "order": 4
+        },
+        "aiAgent.enabledLanguages": {
+          "type": "array",
+          "default": [
+            "javascript",
+            "typescript",
+            "python",
+            "java",
+            "cpp",
+            "csharp",
+            "go",
+            "rust"
+          ],
+          "description": "Languages to enable AI analysis for",
+          "items": {
+            "type": "string"
+          },
+          "order": 5
+        },
+        "aiAgent.maxFileSize": {
+          "type": "number",
+          "default": 100000,
+          "minimum": 1000,
+          "description": "Maximum file size in characters to analyze",
+          "order": 6
+        },
+        "aiAgent.showStatusBar": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show AI Agent status in the status bar",
+          "order": 7
+        },
+        "aiAgent.diagnosticSeverity": {
+          "type": "string",
+          "enum": [
+            "error",
+            "warning",
+            "information",
+            "hint"
+          ],
+          "default": "warning",
+          "description": "Default severity level for AI diagnostics",
+          "order": 8
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.x",
+    "@types/vscode": "^1.80.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vscode/test-electron": "^2.3.0",
+    "@vscode/vsce": "^2.22.0",
+    "eslint": "^8.0.0",
+    "typescript": "^5.3.0"
+  }
+}
