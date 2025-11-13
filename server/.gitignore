@@ -1,0 +1,7 @@
+# Node modules
+node_modules/
+
+# Environment / API keys
+.env
+.env.local
+.env.*.local
